@@ -5,13 +5,18 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+  pages: write
+  id-token: write
 concurrency:
   group: update-news
   cancel-in-progress: false
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -33,3 +38,28 @@ jobs:
           git add public/data/news.json
           git commit -m "news: 自動更新"
           git push
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.19.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - name: 公開先のパスを決定
+        shell: bash
+        run: |
+          repo="${GITHUB_REPOSITORY#*/}"
+          owner="${GITHUB_REPOSITORY%%/*}"
+          if [ "$repo" = "${owner}.github.io" ]; then base=""; else base="/$repo"; fi
+          echo "PAGES_BASE_PATH=$base" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_BASE_PATH=$base" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_SITE_URL=https://${owner}.github.io${base}" >> "$GITHUB_ENV"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build:pages
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+      - name: 最新ニュースを公開
+        id: deployment
+        uses: actions/deploy-pages@v4
