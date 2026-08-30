@@ -1,0 +1,35 @@
+name: ニュースを更新
+on:
+  schedule:
+    - cron: '0 8,21 * * *' # 日本時間 17:00 / 翌朝 06:00
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: update-news
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: RSSを取得・整理
+        run: python scripts/fetch_news.py
+      - name: 取得結果を検証
+        run: python -m unittest discover -s tests -v
+      - name: 変更がある場合だけ保存
+        shell: bash
+        run: |
+          if git diff --quiet -- public/data/news.json; then
+            echo "新しい変更はありません"
+            exit 0
+          fi
+          git config user.name "emiko-news-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add public/data/news.json
+          git commit -m "news: 自動更新"
+          git push

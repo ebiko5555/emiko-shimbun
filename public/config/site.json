@@ -1,0 +1,17 @@
+{
+  "site":{"title":"恵美子新聞","subtitle":"煽られずに、世の中を知る。","endMessage":"知らなくても困らないニュースまで追いかける必要はありません。"},
+  "categories":["日本","世界","韓国","お金と暮らし","アートと技術","科学と健康","ちょっといい話"],
+  "limits":{"total":22,"top":3,"perCategory":4,"goodNews":3},
+  "excludeKeywords":["不倫","離婚","熱愛","交際発覚","性的接待","炎上","ネット騒然","批判殺到","称賛の嵐","容姿","激変","衝撃","ヤバすぎる","まさかの","涙が止まらない","占い","芸能界","K-POP","ゴシップ","SNSの反応"],
+  "categoryKeywords":{"韓国":["Korea","Korean","Seoul","韓国","ソウル"],"お金と暮らし":["金利","物価","年金","税","家計","賃金","住宅","inflation","economy"],"科学と健康":["研究","科学","医療","健康","science","health","climate"],"アートと技術":["美術","アート","Blender","3D","design","museum","AI","web"]},
+  "sources":[
+    {"name":"NHK NEWS WEB","url":"https://www3.nhk.or.jp/rss/news/cat0.xml","category":"日本","sourceType":"public-broadcaster","language":"ja","priority":90,"enabled":true},
+    {"name":"日本銀行","url":"https://www.boj.or.jp/rss/whatsnew.xml","category":"お金と暮らし","sourceType":"public-institution","language":"ja","priority":88,"enabled":true},
+    {"name":"国連ニュース","url":"https://news.un.org/feed/subscribe/en/news/all/rss.xml","category":"世界","sourceType":"international-organization","language":"en","priority":87,"enabled":true},
+    {"name":"KBS WORLD Japanese","url":"http://world.kbs.co.kr/rss/rss_news.htm?lang=j","category":"韓国","sourceType":"public-broadcaster","language":"ja","priority":86,"enabled":true},
+    {"name":"Blender Foundation","url":"https://www.blender.org/feed/","category":"アートと技術","sourceType":"official","language":"en","priority":78,"enabled":true},
+    {"name":"NASA","url":"https://www.nasa.gov/news-release/feed/","category":"科学と健康","sourceType":"government","language":"en","priority":76,"enabled":true},
+    {"name":"Smithsonian Magazine","url":"https://www.smithsonianmag.com/rss/latest_articles/","category":"ちょっといい話","sourceType":"museum-media","language":"en","priority":62,"enabled":true},
+    {"name":"厚生労働省","url":"https://www.mhlw.go.jp/stf/news.rdf","category":"科学と健康","sourceType":"government","language":"ja","priority":90,"enabled":false,"disabledReason":"RSS情報に基づくウェブサイト作成・再配布を利用条件が禁止しているため"}
+  ]
+}
